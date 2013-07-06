@@ -1,16 +1,17 @@
 {
-   "name": "application-name",
-   "version": "0.0.1",
-   "private": true,
-   "dependencies": {
-      "express": "2.5.2",
-      "stylus": ">= 0.0.1",
-      "jade": ">= 0.0.1",
-      "ejs": ">= 0.0.0",
-      "passport": ">= 0.0.0",
-      "passport-local": ">= 0.0.0",
-      "mongoose": ">= 0.0.0",
-      "request": ">= 0.0.0",
-      "jsdom": ">= 0.0.0"
-   }
+    "name": "ABCupid",
+    "version": "0.2.0",
+    "dependencies": {
+        "express": "3.x.x",
+        "ejs": ">= 0.0.0",
+        "ejs-locals": ">= 0.0.0",
+        "async": ">= 0.0.0",
+        "request": ">= 0.0.0",
+        "mongoose": ">= 0.0.0",
+        "okcupid": ">= 0.0.0"
+    },
+    "engines": {
+        "node": "0.8.x",
+        "npm": "1.1.x"
+    }
 }
