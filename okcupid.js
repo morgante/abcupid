@@ -1,6 +1,6 @@
 var request = require('request'),
   jsdom = require('jsdom'),
-  mongoose = require('/usr/local/lib/node_modules/mongoose'),
+  mongoose = require('mongoose'),
   db = mongoose.connect('mongodb://localhost/ok-cupid-messages3'),
   Schema = mongoose.Schema,
   ObjectId = Schema.ObjectId; 
