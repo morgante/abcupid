@@ -9,7 +9,8 @@ var pkg = require('./package.json')
 
 var db = require('./helpers/connect')
 
-var main = require('./routes/main')
+var main = require('./routes/main');
+var templates = require('./routes/templates')
 
 var app = express();
 // configure Express
@@ -29,9 +30,10 @@ app.configure(function() {
 
 // set up routes
 app.get('/', main.index);
-// app.post('/create', main.create);
-// app.get('/paste/:id', main.get);
-// app.get('/destroy/:id', main.destory);
+app.get('/templates', templates.manage);
+app.get('/templates/new', templates.create);
+app.post('/templates/new', templates.save);
+app.get('/templates/:slug', templates.view);
 
 // start listening
 app.listen( process.env.PORT , function() {

@@ -1,0 +1,22 @@
+<% layout('layout') -%>
+<h3>New Template</h3>
+
+<form class="form-horizontal" method="post">
+    <div class="control-group">
+        <label class="control-label" for="slug">Slug</label>
+        <div class="controls">
+            <input type="text" id="slug" name="slug" placeholder="a unique name for this template">
+        </div>
+    </div>
+	<div class="control-group">
+        <label class="control-label" for="body">Template</label>
+        <div class="controls">
+            <textarea id="body" name="body" placeholder="The template text"></textarea>
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn">Create</button>
+        </div>
+    </div>
+</form>
