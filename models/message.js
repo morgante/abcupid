@@ -3,10 +3,11 @@ var mongoose = require('mongoose')
 	, ObjectId = Schema.ObjectId;
 
 var messageSchema = new Schema({
-	okCupidUsername	: ObjectId,
-	toUsername		: String,
-	message         : String,
-	date            : {type: Date, default: Date.now}	
+	from:       String,
+   to:         String,
+   timestamp:  Date,
+   message_id: {type: Number, unique: true},
+   body:       String
 });
 
 module.exports = mongoose.model("Message", messageSchema);

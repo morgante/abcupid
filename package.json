@@ -9,8 +9,9 @@
         "request": ">= 0.0.0",
         "mongoose": ">= 0.0.0",
         "htmlparser": ">= 0.0.0",
-        "okcupid": "git://github.com/morgante/OkCupid.git#master",
-        "underscore": ">= 0.0.0"
+        "underscore": ">= 0.0.0",
+        "restler" : "*",
+        "soupselect" : "*"
     },
     "engines": {
         "node": "0.8.x",
