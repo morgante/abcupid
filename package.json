@@ -9,7 +9,7 @@
         "request": ">= 0.0.0",
         "mongoose": ">= 0.0.0",
         "htmlparser": ">= 0.0.0",
-        "okcupid": "git://github.com/shawn-simon/OkCupid.git#master",
+        "okcupid": "git://github.com/morgante/OkCupid.git#master",
         "underscore": ">= 0.0.0"
     },
     "engines": {

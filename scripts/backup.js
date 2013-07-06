@@ -1,13 +1,25 @@
-var okcupid = require('okcupid')
-var client = api.createClient()
+var okcupid = require('../helpers/okcupid')
+var client = okcupid.api.createClient()
 
+var db = require('../helpers/connect')
 
-var db = require('./helpers/connect')
+var OkCupidUser = require('../models/okcupiduser');
 
-var OkCupidUser = require('./models/okcupiduser')
-
-OKCupidUser.find({}, function( err, users ) {
-   console.log( users );
+OkCupidUser.find({}, function( err, users ) {
+   users.forEach( function( usr ) {
+      console.log( usr.password );
+      
+      client.authenticate( usr.username, usr.password, function( success ) {
+         
+         client.getProfile( usr.username, function( d, f ) {
+            console.log( d, f );
+         })
+         
+         // console.log( client );
+      });
+      
+   });
+   // console.log( users );
 });
 
 // Copy your preferred match search's url from the website.
