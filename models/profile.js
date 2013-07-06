@@ -5,7 +5,9 @@ var mongoose = require('mongoose')
 var profileSchema = new Schema({
 	username	      : {type: String},
 	date           : {type: Date, default: Date.now},
-	essays         : {type: Schema.Types.Mixed}
+	essays         : {type: Schema.Types.Mixed},
+	status         : {type: String, default: 'active'},
+	lastContacted  : {type: Date}
 });
 
 

@@ -9,6 +9,8 @@ var pkg = require('./package.json')
 
 var db = require('./helpers/connect')
 
+var main = require('./routes/main')
+
 var app = express();
 // configure Express
 app.configure(function() {
@@ -26,7 +28,7 @@ app.configure(function() {
 });
 
 // set up routes
-// app.get('/', main.index);
+app.get('/', main.index);
 // app.post('/create', main.create);
 // app.get('/paste/:id', main.get);
 // app.get('/destroy/:id', main.destory);

@@ -60,39 +60,50 @@ exports.createClient = function() {
 			if (err) {
                 sys.debug("Error: " + err);
 			} else {
-				profile.username = select(dom, 'span#basic_info_sn')[0].children[0].data
-				var lastContacted = select(dom, 'div#contacted p')
-				if (lastContacted.length > 0)
-				{
-					profile.lastContacted = lastContacted[0].children[0].data				
-				}
-				else
-				{
-					profile.lastContacted = null
-				}
-				
-				profile.essays = {};
-				
-				// essays
-				for (var i=0;i<10;i++)
-            { 
-               
-               txt = '';
-               esy = select( dom, 'div#essay_text_' + i);
-               
-               if( esy.length > 0 ) 
-               {
-                  _.each( esy[0].children, function( child ) {
-                    if( child.type == 'text' )
-                    {
-                       txt += child.raw;
-                    }
-                  } );
+			   username = select(dom, 'span#basic_info_sn');
+			   
+			   if( username.length > 0 && username.children != undefined )
+			   {
+			      profile.username = username.children[0].data
+   				var lastContacted = select(dom, 'div#contacted p')
+   				if (lastContacted.length > 0)
+   				{
+   					profile.lastContacted = lastContacted[0].children[0].data				
+   				}
+   				else
+   				{
+   					profile.lastContacted = null
+   				}
 
-                  profile.essays[ 'essay_' + i] = txt.trim();
+   				profile.essays = {};
+
+   				// essays
+   				for (var i=0;i<10;i++)
+               { 
+
+                  txt = '';
+                  esy = select( dom, 'div#essay_text_' + i);
+
+                  if( esy.length > 0 ) 
+                  {
+                     _.each( esy[0].children, function( child ) {
+                       if( child.type == 'text' )
+                       {
+                          txt += child.raw;
+                       }
+                     } );
+
+                     profile.essays[ 'essay_' + i] = txt.trim();
+                  }
+
                }
-               
-            }				
+			   }
+			   else
+			   {
+			      profile.status = 'deactive'
+			   }
+			   
+					
          }
 			callback(profile)
         });
@@ -237,7 +248,8 @@ exports.createClient = function() {
       			   
       			   async.each( threads, function( msg, cb ) {
       			      var url = select( msg, 'a.open' )[0].attribs.href.replace('&amp;','&');
-      			      var ts = new Date( select( msg, 'span.timestamp span' )[0].children[0].raw );
+      			      var ts = select( msg, '.timestamp script');
+                     ts = new Date( ts[0].children[0].raw.match(/, (\d+), /)[1] * 1000 );
       			      
       			      var with_who = select( msg, '.subject' )[0].children[0].data;
       			            			      

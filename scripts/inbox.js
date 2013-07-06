@@ -7,6 +7,41 @@ var db = require('../helpers/connect')
 var OkCupidUser = require('../models/okcupiduser'),
       Profile   = require('../models/profile')
       Message   = require('../models/message')
+      
+function storeMessages ( messages, client ) {
+   _.each( messages, function( msg ) {
+      msg.message_id = msg.id.replace('message_', '');
+      Message.create(msg, function( err, msg) {
+         
+         if( !err ) {
+            Profile.findOne( {username: msg.to}, function( err, prof ) {
+               if( prof == null )
+               {
+                  client.getProfile( msg.to, function( profile ) {
+                     profile.username = msg.to;
+                     
+                     Profile.create( profile, function( err, prof ) {
+                        
+                     });
+
+                     // process.exit();
+
+                  })
+               }
+            })
+         }
+         
+         // Profile.count({ username: msg.to}, function( err, cnt ) {
+         //             console.log( cnt );
+         //          });
+         
+         // Profile.find( 'username')
+         
+      });
+   });
+
+   console.log( 'doneish with inbox' );
+}
 
 OkCupidUser.find({username: 'kameronsmith'}, function( err, users ) {
 
@@ -17,6 +52,15 @@ OkCupidUser.find({username: 'kameronsmith'}, function( err, users ) {
          {'to': usr.username}
       ]).sort({timestamp: -1}).limit(1).exec( function( err, msgs ) {
          lastMsg = msgs[0];
+         
+         if( msgs.length > 0 )
+         {
+            after = msgs[0].timestamp;
+         }
+         else
+         {
+            after = new Date('january 1, 1970');
+         }
                   
          var client = api.createClient();
 
@@ -24,22 +68,27 @@ OkCupidUser.find({username: 'kameronsmith'}, function( err, users ) {
 
             client.getInbox(
                {
-                  after: lastMsg.timestamp
-               }, function( messages ) {
-                  _.each( messages, function( msg ) {
-                     msg.message_id = msg.id.replace('message_', '');
-                     Message.create(msg, function( err, msg) {
-
-                     });
-                  });
-               
-                  console.log( 'doneish' );
-            });
+                  after: after
+               },
+               function( messages ){
+                  storeMessages( messages, client );
+               }
+            );
+            
+            client.getInbox(
+               {
+                  after: after,
+                  url: '/messages?folder=2'
+               },
+               function( messages ){
+                  storeMessages( messages, client );
+               }
+            );
             
          });
       });      
    }, function( err ) {
       process.exit();
    });
-
+   
 });
