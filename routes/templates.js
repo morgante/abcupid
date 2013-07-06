@@ -1,7 +1,10 @@
 var Template = require('../models/template')
 
 exports.manage = function(req, res){
-   res.render('templates', {} );
+   
+   Template.find({}, function( err, templates ) {
+      res.render('templates', {tpls: templates} );
+   })
 };
 
 exports.create = function(req, res){

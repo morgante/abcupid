@@ -1,4 +1,10 @@
 <% layout('layout') -%>
 <h2>Manage Templates</h2>
 
-<a href="/templates/new" class="bnt btn-large">New Template</a>
+<ul>
+<% tpls.forEach( function( tpl ) { %>
+	<li><a href="/templates/<%= tpl.slug %>"><%= tpl.slug %></a></li>
+<% }) %>
+</ul>
+
+<a href="/templates/new" class="btn btn-large">New Template</a>
