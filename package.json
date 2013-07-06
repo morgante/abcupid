@@ -8,7 +8,8 @@
         "async": ">= 0.0.0",
         "request": ">= 0.0.0",
         "mongoose": ">= 0.0.0",
-        "okcupid": ">= 0.0.0"
+        "htmlparser": ">= 0.0.0",
+        "okcupid": "git://github.com/shawn-simon/OkCupid.git#master"
     },
     "engines": {
         "node": "0.8.x",

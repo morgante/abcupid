@@ -5,7 +5,7 @@ var mongoose = require('mongoose')
 var okCupidUserSchema = new Schema({
 	username	: String,
 	password	: String,
-	date        : {type: Date, default: Date.now}
+	date     : {type: Date, default: Date.now}
 });
 
 module.exports = mongoose.model("OkCupidUser", okCupidUserSchema);
