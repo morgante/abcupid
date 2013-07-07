@@ -8,7 +8,9 @@ var crypto = require('crypto');
 var okCupidUserSchema = new Schema({
 	username	   : {type: String, unique: true},
 	_password   : String,
-	date        : {type: Date, default: Date.now}
+	date        : {type: Date, default: Date.now},
+	active      : {type: Boolean, default: false},
+	match_url   : {type: String, default: 'http://www.okcupid.com/match'}
 });
 
 okCupidUserSchema.virtual('password').set(function (password) {

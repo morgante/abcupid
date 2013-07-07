@@ -1,0 +1,22 @@
+<% layout('layout') -%>
+<h3>Edit <%= user.username %></h3>
+
+<form class="form-horizontal" method="post">
+    <div class="control-group">
+        <label class="control-label" for="active">Active</label>
+        <div class="controls">
+            <input type="checkbox" id="active" name="active" value="true"<% if( user.active ) { %>checked="true"<% } %>>
+        </div>
+    </div>
+	<div class="control-group">
+        <label class="control-label" for="match_url">Match URL</label>
+        <div class="controls">
+            <input type="text" name="match_url" id="match_url" value="<%= user.match_url %>">
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn">Save</button>
+        </div>
+    </div>
+</form>

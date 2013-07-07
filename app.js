@@ -11,6 +11,7 @@ var db = require('./helpers/connect')
 
 var main = require('./routes/main');
 var templates = require('./routes/templates')
+var users = require('./routes/users')
 
 var app = express();
 // configure Express
@@ -30,10 +31,15 @@ app.configure(function() {
 
 // set up routes
 app.get('/', main.index);
+
 app.get('/templates', templates.manage);
 app.get('/templates/new', templates.create);
 app.post('/templates/new', templates.save);
 app.get('/templates/:slug', templates.view);
+
+app.get('/users', users.list);
+app.get('/users/:username', users.edit);
+app.post('/users/:username', users.save);
 
 // start listening
 app.listen( process.env.PORT , function() {
