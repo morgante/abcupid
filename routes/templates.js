@@ -19,7 +19,8 @@ exports.save = function(req, res){
    
    Template.update({slug: req.body.slug}, {
       slug: req.body.slug,
-      body: req.body.body
+      body: req.body.body,
+      condition: req.body.condition
    }, {upsert: true}, function(err, template) {
       res.redirect( '/templates/' + req.body.slug );
    });

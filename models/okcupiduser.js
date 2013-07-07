@@ -10,7 +10,8 @@ var okCupidUserSchema = new Schema({
 	_password   : String,
 	date        : {type: Date, default: Date.now},
 	active      : {type: Boolean, default: false},
-	match_url   : {type: String, default: 'http://www.okcupid.com/match'}
+	match_url   : {type: String, default: 'http://www.okcupid.com/match'},
+	_templates  : {type: String, default: ''}
 });
 
 okCupidUserSchema.virtual('password').set(function (password) {

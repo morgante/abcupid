@@ -29,7 +29,8 @@ exports.save = function(req, res){
    
    User.update({username: username}, {
       active: req.body.active,
-      match_url: req.body.match_url
+      match_url: req.body.match_url,
+      _templates: req.body._templates
    }, {upsert: true}, function(err, user) {
       res.redirect( '/users/' + username );
    });
