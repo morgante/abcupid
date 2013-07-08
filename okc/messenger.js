@@ -93,16 +93,29 @@ messenger.messageMany = function(client, templates, opt, callback) {
 	   matches.unmessaged = _.union( matches.unmessaged, newMatches );
 	   
 	   var doMessage = function() {
-	      target = matches.unmessaged.pop();
+	      if( matches.messaged.length >= opt.maxMessages ) {
+	         // edit the loop
+	         callback( matches.messaged );
+	      }
+	      else
+	      {
+	         target = matches.unmessaged.pop();
 
-   	   messenger.message( client, templates, matches.unmessaged.pop(), opt.messageOptions, function( err, message ) {
-   	      matches.messaged.push( target );
-   	   } );
-   	   
-   	   console.log( 'waiting ' + opt.delay / 1000 + ' seconds until sending next message...')
-   	   setTimeout( doMessage, opt.delay );
+            // console.log( target, matches.messaged );
+
+      	   messenger.message( client, templates, target, opt.messageOptions, function( err, message ) {
+      	      if( err == null )
+      	      {
+      	         matches.messaged.push( target );
+      	      }
+      	   } );
+
+      	   console.log( 'waiting ' + opt.delay / 1000 + ' seconds until sending next message...')
+      	   setTimeout( doMessage, opt.delay );
+	      }
 	   }
 	   
+	   // start the loop
 	   doMessage();
       	   
       // console.log( m)

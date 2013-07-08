@@ -22,13 +22,13 @@ OkCupidUser.find({ active: true }, function( err, users ) {
             dryRun: true
          },
          maxMessages: 5,
-         delay: 10000
+         delay: 100
       }
 
       user.getTemplates( function( err, templates ) {
          client.authenticate( user.username, user.password, function( success ) {
-            messenger.messageMany(client, templates, automatorOptions, function(){
-               console.log('Complete!')
+            messenger.messageMany(client, templates, automatorOptions, function( messaged ){
+               console.log('Messaged ' + messaged.length + ' people.')
             })
          });
       });
