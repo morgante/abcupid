@@ -16,7 +16,8 @@ exports.messageMatches = function(client, message, opt, callback)
 	})
 	
 	_.defaults(opt.matchOptions, {
-		count: 25
+		count: 25,
+		searchUrl: '/match'
 	})
 	
 	var messagedMatches = 0

@@ -61,10 +61,10 @@ exports.createClient = function() {
                 sys.debug("Error: " + err);
 			} else {
 			   username = select(dom, 'span#basic_info_sn');
-			   
-			   if( username.length > 0 && username.children != undefined )
+			   			   			   			   
+			   if( username.length > 0 && username[0].children != undefined )
 			   {
-			      profile.username = username.children[0].data
+			      profile.username = username[0].children[0].data
    				var lastContacted = select(dom, 'div#contacted p')
    				if (lastContacted.length > 0)
    				{
@@ -100,6 +100,8 @@ exports.createClient = function() {
 			   }
 			   else
 			   {
+               // console.log( dom );
+   			   
 			      profile.status = 'deactive'
 			   }
 			   
@@ -206,13 +208,15 @@ exports.createClient = function() {
 			_.defaults(opt, {
 				low: 1,
 				count: 25,
-				searchUrl: 'match'				
+				searchUrl: '/match'				
 			})
-			var url = opt.searchUrl.replace('http://', '').replace('www.okcupid.com/', '').replace('okcupid.com/', '')
+			
+			var url = opt.searchUrl.replace('http://', '').replace('www.okcupid.com', '').replace('okcupid.com', '')
 				.replace(/[&\?]?low=\d+/, '')
-				.replace(/[&\?]?count=\d+/, '')		
+				.replace(/[&\?]?count=\d+/, '')
+					
 			// There's def a cleaner way to do this next bit.
-			if (url != 'match')
+			if (url != '/match')
 			{
 				url = url + '&low=' + opt.low + '&count=' + opt.count
 			}
@@ -220,7 +224,12 @@ exports.createClient = function() {
 			{
 				url = url + '?low=' + opt.low + '&count=' + opt.count
 			}
+			
+         // console.log( url );
+			
 			get(url, function(data, response) {
+            // console.log( data );
+			   
 				parseSearchResults(data, callback)
 			})
 		},

@@ -2,7 +2,10 @@ var mongoose = require('mongoose')
 	, Schema = mongoose.Schema
 	, ObjectId = Schema.ObjectId;
 
-var crypto = require('crypto');
+var crypto = require('crypto')
+   _ = require('underscore')
+
+var Template = require('./template');
 
 
 var okCupidUserSchema = new Schema({
@@ -27,5 +30,24 @@ okCupidUserSchema.virtual('password').get(function () {
    dec += decipher.final('utf8')
    return dec;
 });
+
+
+okCupidUserSchema.methods.getTemplates = function (cb) {
+   slugs = this._templates.split(',');
+   
+   // remove whitespace
+   slugs = _.map( slugs, function( tpl ) { return tpl.trim(); } );
+      
+   Template.find({ "slug": {"$in": slugs }}, function( err, templates ) {
+      // keep consistent ordering
+      templates = _.sortBy( templates, function( template ) {
+         return slugs.indexOf( template.slug );
+      });
+      
+      cb( err, templates );
+   });
+
+   
+}
 
 module.exports = mongoose.model("OkCupidUser", okCupidUserSchema);
