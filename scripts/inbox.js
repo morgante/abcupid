@@ -26,7 +26,7 @@ function storeMessages ( messages, client ) {
 
                      // process.exit();
 
-                  })
+                  });
                }
             })
          }

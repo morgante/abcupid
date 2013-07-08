@@ -1,6 +1,7 @@
 var _ = require('underscore')
 
 var Message   = require('../models/message')
+   Profile = require('../models/profile')
 
 messenger = {};
 
@@ -13,6 +14,10 @@ messenger.message = function(client, templates, target, opt, callback) {
    });
    
    client.getProfile( target, function( profile ) {
+      // save the profile         
+      Profile.create( profile, function( err, prof ) {   
+      });
+      
       if( !opt.recontact && profile.lastContacted != null )
       {
          console.log( 'Not contacting ' + target + ' because recontact is not enabled.' );
@@ -41,7 +46,7 @@ messenger.message = function(client, templates, target, opt, callback) {
             if (opt.dryRun)
    			{
    				console.log('Skipped sending message (dryRun option is currently enabled.) Message to ' + target + ' would have been: ' + message );
-   				callback( 'dryrun', message );
+   				callback( null, message );
    			}
    			else
    			{
@@ -108,10 +113,9 @@ messenger.messageMany = function(client, templates, opt, callback) {
       	      {
       	         matches.messaged.push( target );
       	      }
-      	   } );
-
-      	   console.log( 'waiting ' + opt.delay / 1000 + ' seconds until sending next message...')
-      	   setTimeout( doMessage, opt.delay );
+      	      console.log( 'waiting ' + opt.delay / 1000 + ' seconds until sending next message...');
+      	      setTimeout( doMessage, opt.delay );
+      	   } );      	   
 	      }
 	   }
 	   

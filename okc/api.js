@@ -151,9 +151,10 @@ exports.createClient = function() {
 				{
 					console.log("Succesfully authenticated. Fetching authcode to send messages.")
 					_username = username;
+										
 					// Getting authcode.
 					get('/profile/' + username, function(data, response)
-					{
+					{					   
 						var match = authcodeRegex.exec(data);						
 						_authcode = match != null ? match[1] : null
 						if (_authcode != null && callback) 
