@@ -18,9 +18,11 @@ OkCupidUser.find({ active: true }, function( err, users ) {
          matchOptions: {
             seachUrl: user.match_url
          },
-         dryRun: true,
+         messageOptions: {
+            dryRun: true
+         },
          maxMessages: 5,
-         timeBetweenRequests: 30000
+         delay: 10000
       }
 
       user.getTemplates( function( err, templates ) {

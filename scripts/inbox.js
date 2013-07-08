@@ -11,7 +11,7 @@ var OkCupidUser = require('../models/okcupiduser'),
 function storeMessages ( messages, client ) {
    _.each( messages, function( msg ) {
       msg.message_id = msg.id.replace('message_', '');
-      Message.create(msg, function( err, msg) {
+      Message.log(msg, function( err, msg) {
          
          if( !err ) {
             Profile.findOne( {username: msg.to}, function( err, prof ) {
@@ -63,7 +63,7 @@ OkCupidUser.find({}, function( err, users ) {
          {
             after = new Date('january 1, 1970');
          }
-                  
+                           
          var client = api.createClient();
 
          client.authenticate( usr.username, usr.password, function( success ) {

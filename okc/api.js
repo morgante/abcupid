@@ -135,10 +135,12 @@ exports.createClient = function() {
         parser.parseComplete(html);
 	}
 	
-	var client = {		
-		
+	var client = {	
+	   		
 		authenticate: function(username, password, callback)
 		{
+		   this.username = username;
+			
 			if (_sessionCookie != null)
 			{
 				console.log("Already logged in.")
@@ -148,7 +150,7 @@ exports.createClient = function() {
 				if (_sessionCookie != null)
 				{
 					console.log("Succesfully authenticated. Fetching authcode to send messages.")
-					_username = username
+					_username = username;
 					// Getting authcode.
 					get('/profile/' + username, function(data, response)
 					{
@@ -187,7 +189,7 @@ exports.createClient = function() {
 			}
 			post('/mailbox', params, function(data, response)			
 			{
-				console.log('Message to ' + username + ' sent!')
+            // console.log('Message to ' + username + ' sent!')
 				//console.log(data)
 				if (callback != null) callback()
 			})			
@@ -251,7 +253,7 @@ exports.createClient = function() {
       			   
       			   var threads = select( dom, '#messages li');
       			   
-      			   console.log( threads );
+                  // console.log( threads );
       			   
                   // messages = messages;
                   // console.log( messages );
