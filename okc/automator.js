@@ -23,7 +23,7 @@ exports.messageMatches = function(client, message, opt, callback)
 	var currentMatchIndex = 1
 	var currentMatches = []	
 	
-	console.log('Automator: Finding ' + opt.maxMessages + ' matches to message.')
+	console.log('Automator: Finding ' + opt.maxMessages + ' matches to message.');
 	
 	var messageMatch = function(callback)
 	{
@@ -85,6 +85,8 @@ exports.messageMatches = function(client, message, opt, callback)
 		console.log('Searching for ' + opt.matchOptions.count + ' matches.')
 		client.matchSearch(opt.matchOptions, function(matches)
 		{
+		   console.log( matches );
+		   
 			currentMatches = matches			
 			messageMatch(function() { messageMatchCallback(callback) })			
 		})	
