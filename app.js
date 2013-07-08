@@ -36,6 +36,7 @@ app.get('/templates', templates.manage);
 app.get('/templates/new', templates.create);
 app.post('/templates/new', templates.save);
 app.get('/templates/:slug', templates.view);
+app.post('/templates/:slug', templates.save);
 
 app.get('/users', users.list);
 app.get('/users/:username', users.edit);

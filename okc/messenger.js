@@ -23,10 +23,17 @@ messenger.message = function(client, templates, target, opt, callback) {
          
          while( message == false && templates.length > 0 ) {
             template = templates.pop();
-            console.log( template );
+            
+            message = template.apply();
+               
          }
          
-         console.log( profile );
+         if( message )
+         {
+            
+         }
+         
+         console.log( message );
       }
       
       callback( null );

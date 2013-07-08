@@ -16,8 +16,8 @@ exports.save = function(req, res){
    // console.log( req.body );
    
    params = {}
-   
-   Template.update({slug: req.body.slug}, {
+      
+   Template.update({slug: req.params.slug}, {
       slug: req.body.slug,
       body: req.body.body,
       condition: req.body.condition
