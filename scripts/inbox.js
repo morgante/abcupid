@@ -43,7 +43,9 @@ function storeMessages ( messages, client ) {
    console.log( 'doneish with inbox' );
 }
 
-OkCupidUser.find({username: 'kameronsmith'}, function( err, users ) {
+OkCupidUser.find({}, function( err, users ) {
+   
+   // console.log( users );
 
    async.each( users, function( usr, cb ) {
       

@@ -234,12 +234,15 @@ exports.createClient = function() {
 		   }
 		   
 		   get(opt.url, function( data, response ) {
+		      
       		var handler = new htmlparser.DefaultHandler(function(err, dom) {
       			if (err) {
                       sys.debug("Error: " + err);
       			} else {
       			   
       			   var threads = select( dom, '#messages li');
+      			   
+      			   console.log( threads );
       			   
                   // messages = messages;
                   // console.log( messages );
