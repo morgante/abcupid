@@ -50,7 +50,6 @@ OkCupidUser.find({}, function( err, users ) {
    async.each( users, function( usr, cb ) {
       
       Message.find({}).or([
-         {'from': usr.username},
          {'to': usr.username}
       ]).sort({timestamp: -1}).limit(1).exec( function( err, msgs ) {
          lastMsg = msgs[0];
