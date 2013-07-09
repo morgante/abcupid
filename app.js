@@ -14,6 +14,7 @@ var db = require('./helpers/connect')
 var main = require('./routes/main');
 var templates = require('./routes/templates')
 var users = require('./routes/users')
+var inbox = require('./routes/inbox')
 
 var OkCupidUser = require('./models/okcupiduser')
 
@@ -87,6 +88,8 @@ app.get('/templates/new', ensureAuthenticated, templates.create);
 app.post('/templates/new', ensureAuthenticated, templates.save);
 app.get('/templates/:slug', ensureAuthenticated, templates.view);
 app.post('/templates/:slug', ensureAuthenticated, templates.save);
+
+app.get('/inbox', ensureAuthenticated, inbox.inbox);
 
 // app.get('/users', users.list);
 // app.get('/users/:username', users.edit);

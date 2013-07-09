@@ -1,0 +1,13 @@
+<% layout('layout') -%>
+<h2>Inbox</h2>
+
+<p>Just started downloading new messages. Refresh shortly to see them.</p>
+
+<ul>
+<% messages.forEach( function( message ) { %>
+	<li>
+		<h3>From <%= message.from %> to <%= message.to %>:</h3>
+		<p><%= message.body %></p>
+	</li>
+<% }); %>
+</ul>
