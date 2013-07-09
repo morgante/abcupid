@@ -9,7 +9,7 @@ var Template = require('./template');
 
 
 var okCupidUserSchema = new Schema({
-	username	   : {type: String, unique: true},
+	username    : {type: String, unique: true},
 	_password   : String,
 	date        : {type: Date, default: Date.now},
 	active      : {type: Boolean, default: false},
@@ -30,6 +30,18 @@ okCupidUserSchema.virtual('password').get(function () {
    dec += decipher.final('utf8')
    return dec;
 });
+
+// Password verification
+okCupidUserSchema.methods.comparePassword = function(candidatePassword, cb) {    
+    if( candidatePassword == this.password )
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+};
 
 
 okCupidUserSchema.methods.getTemplates = function (cb) {

@@ -45,10 +45,8 @@ function storeMessages ( messages, client ) {
 
 OkCupidUser.find({}, function( err, users ) {
    
-   // console.log( users );
-
    async.each( users, function( usr, cb ) {
-      
+             
       Message.find({}).or([
          {'to': usr.username}
       ]).sort({timestamp: -1}).limit(1).exec( function( err, msgs ) {

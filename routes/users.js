@@ -1,4 +1,49 @@
+var passport = require('passport');
+
 var User = require('../models/okcupiduser')
+
+// app.get('/', function(req, res){
+//   res.render('index', { user: req.user });
+// });
+// 
+// app.get('/account', ensureAuthenticated, function(req, res){
+//   res.render('account', { user: req.user });
+// });
+// 
+// app.get('/login', function(req, res){
+//   res.render('login', { user: req.user, message: req.session.messages });
+// });
+
+exports.login = function( req, res, next ) {
+    res.render('login', { user: req.user, message: req.session.messages });
+}
+
+exports.execLogin = function(req, res, next ){
+    // try to create a new user off the bat (this will fail if user already exists)
+    User.create({
+       username: req.body.username,
+       password: req.body.password,
+    }, function( err, usr ) {
+        // now auth on the new or existing user
+        passport.authenticate('local', function(err, user, info) {        
+            if (err) { return next(err) }
+            if (!user) {
+                req.session.messages =  [info.message];
+                return res.redirect('/login')
+            }
+            req.logIn(user, function(err) {
+                if (err) { return next(err); }
+                return res.redirect('/');
+            });
+        })(req, res, next);
+    });    
+};
+
+exports.logout = function( req, res ) {
+    req.logout();
+    res.redirect('/');
+}
+
 
 exports.list = function(req, res){
    

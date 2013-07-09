@@ -11,7 +11,9 @@
         "htmlparser": ">= 0.0.0",
         "underscore": ">= 0.0.0",
         "restler" : "*",
-        "soupselect" : "*"
+        "soupselect" : "*",
+        "passport": ">= 0.0.0",
+        "passport-local": ">= 0.0.0"
     },
     "engines": {
         "node": "0.8.x",
