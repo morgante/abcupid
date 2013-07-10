@@ -1,4 +1,6 @@
 var api = require('../okc/api')
+var messenger = require('../okc/messenger')
+
 var _    = require('underscore')
    async = require('async')
 
@@ -9,6 +11,52 @@ var OkCupidUser = require('../models/okcupiduser'),
       Message   = require('../models/message')
 
 var User = require('../models/okcupiduser')
+
+exports.request = function( req, res, next ) {
+    res.render('batch-request', {
+        count: 5,
+        searchUrl: req.user.match_url,
+        templates: req.user._templates,
+        message: req.session.messages
+    }); 
+}
+
+exports.batch = function( req, res, next ) {
+
+    user = req.user;
+    user.match_url = req.body.searchUrl;
+    user._templates = req.body.templates;
+
+    // save preferences
+    user.save( function( err, user ) {
+
+    });
+
+    var automatorOptions = {
+        matchOptions: {
+            seachUrl: user.match_url
+        },
+        messageOptions: {
+            dryRun: false
+        },
+        maxMessages: req.body.count,
+        delay: 1000
+    }
+
+    user.getTemplates( function( err, templates ) {
+
+        var client = api.createClient()
+
+        client.authenticate( user.username, user.password, function( success ) {            
+            messenger.messageMany(client, templates, automatorOptions, function( messaged ){
+                console.log('Messaged ' + messaged.length + ' people.')
+            });
+            
+            req.session.messages =  ["Sent batch request to message users."];
+            return res.redirect('/batch');
+        });
+    });
+}
 
 function storeMessages ( messages, client ) {
    _.each( messages, function( msg ) {

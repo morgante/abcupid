@@ -1,0 +1,30 @@
+<% layout('layout') -%>
+<h3>Send Messages</h3>
+<% if (message) { %>
+	<p><%= message %></p>
+<% } %>
+<form class="form-horizontal" method="post">
+    <div class="control-group">
+        <label class="control-label" for="count">Count</label>
+        <div class="controls">
+            <input type="text" id="count" name="count" value="<%= count %>">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="searchUrl">Match URL</label>
+        <div class="controls">
+            <input type="text" id="searchUrl" name="searchUrl" value="<%= searchUrl %>">
+        </div>
+    </div>
+	<div class="control-group">
+        <label class="control-label" for="templates">Templates</label>
+        <div class="controls">
+            <input type="text" id="templates" name="templates" value="<%= templates %>">
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn">Send</button>
+        </div>
+    </div>
+</form>

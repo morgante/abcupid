@@ -90,6 +90,8 @@ app.get('/templates/:slug', ensureAuthenticated, templates.view);
 app.post('/templates/:slug', ensureAuthenticated, templates.save);
 
 app.get('/inbox', ensureAuthenticated, inbox.inbox);
+app.get('/batch', ensureAuthenticated, inbox.request);
+app.post('/batch', ensureAuthenticated, inbox.batch);
 
 // app.get('/users', users.list);
 // app.get('/users/:username', users.edit);
