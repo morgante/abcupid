@@ -122,10 +122,11 @@ exports.createClient = function() {
 			if (err) {
                 sys.debug("Error: " + err);
 			} else {
-				var matches = select(dom, 'div.match_row span.username')
-				matches.forEach(function(match)
-				{
-					results.push(match.children[0].data)
+				var matches = select(dom, '#match_results input');
+				matches.forEach(function(match) {
+					if (match.attribs['data-username'] !== undefined) {
+						results.push(match.attribs['data-username']);
+					}
 				})
             }
 			callback(results)
