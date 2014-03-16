@@ -4,6 +4,7 @@ var searching = require('../okc/searching');
 var intellect = require('../okc/intellect');
 
 var Message = require('../models/message');
+var Profile = require('../models/profile');
 
 exports.messageMany = function() {
 	var username = process.env.TEST_USERNAME;
@@ -29,8 +30,17 @@ exports.messageMany = function() {
 	var messages = Message.makeStream({
 		from: username
 	});
+	var profiles = Profile.makeStream({
+	});
 
+	matches.pause();
+
+	matches.pipe(profiles);
 	matches.pipe(brain).pipe(messages);
+
+	matches.on('data', function(data) {
+		console.log('found', data);
+	});
 
 	brain.on('data', function(data) {
 		console.log('thought', data);
@@ -40,10 +50,12 @@ exports.messageMany = function() {
 		console.log('sent', data);
 	});
 
+	matches.resume();
+
 	// client.authenticate( username, password, function( success ) {
 	// 	var matches = new searching.MatchStream({
 	// 		client: client,
-	// 		fake: true
+	// 		// fake: true
 	// 	});
 
 	// 	var brain = new intellect.BrainStream({});
@@ -52,7 +64,11 @@ exports.messageMany = function() {
 	// 		client: client
 	// 	});
 
-	// 	matches.pipe(brain).pipe(sender);
+	// 	matches.pipe(brain);
+
+	// 	matches.on('data', function(data) {
+	// 		console.log('found', data);
+	// 	});
 
 	// 	brain.on('data', function(data) {
 	// 		console.log('thought', data);
