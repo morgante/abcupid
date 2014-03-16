@@ -15,6 +15,9 @@ exports.createClient = function() {
 	var _authcode = null
 	var _username = null
 	var _userId = null
+
+	// use a cookie jar
+	request.defaults({jar: true});
 	
 	var post = function(path, params, callback) {	
 	   
@@ -51,7 +54,20 @@ exports.createClient = function() {
 	   }, function( err, response, body ) {
 			callback(body, response)
 	   });
-	}
+	};
+
+	var get2 = function(opts, callback) {
+		console.log('getting', opts.path);
+		opts = _.defaults(opts, {
+			url: uri + opts.path,
+			method: 'GET',
+			followRedirects:false
+		});
+		request(opts, function( err, response, body ) {
+			console.log('hehlo', err, response, body);
+			callback(err, body, response);
+		});
+	};
 	
 	var parseProfile = function(html, callback)
 	{
@@ -189,11 +205,14 @@ exports.createClient = function() {
 				from_profile: '1',
 				ajax: '1',
 			}
-			post('/mailbox', params, function(data, response)			
-			{
-            // console.log('Message to ' + username + ' sent!')
-				//console.log(data)
-				if (callback != null) callback()
+			get2({
+				path: '/mailbox',
+				qs: params, 
+			}, function(err, data, response) {
+				console.log('bob', data);
+				if (callback != null) {
+					callback(err, data, response);
+				}
 			})			
 		},
 		

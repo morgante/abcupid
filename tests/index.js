@@ -16,41 +16,26 @@ exports.messageMany = function() {
 
 	console.log(username, password);
 
-	var matches = new searching.MatchStream({
-		client: client,
-		fake: true
-	});
+	client.authenticate( username, password, function( success ) {
+		var matches = new searching.MatchStream({
+			client: client,
+			fake: true
+		});
 
-	var brain = new intellect.BrainStream({});
-	var throttler = new okc.ThrottleStream({});
-	var sender = new okc.SendStream({
-		client: client
-	});
+		var brain = new intellect.BrainStream({});
+		var throttler = new okc.ThrottleStream({});
+		var sender = new okc.SendStream({
+			client: client
+		});
 
-	matches.pipe(brain).pipe(sender);
+		matches.pipe(brain).pipe(sender);
 
-	brain.on('data', function(data) {
-		console.log('thought', data);
-	});
+		brain.on('data', function(data) {
+			console.log('thought', data);
+		});
 
-	sender.on('data', function(data) {
-		console.log('sent', data);
-	});
-
-	// client.authenticate( username, password, function( success ) {
-	// 	var matches = new searching.MatchStream({
-	// 		client: client,
-	// 		fake: true
-	// 	});
-
-	// 	var intellect = new intellect.BrainStream({});
-	// 	var throttler = new okc.ThrottleStream({});
-	// 	var sender = new okc.SendStream({});
-
-	// 	matches.pipe(intellect).pipe(throttler).pipe(sender);
-
-	// 	intellect.on('data', function(data) {
-	// 		console.log('thought', data);
-	// 	});
- //    });
+		sender.on('data', function(data) {
+			console.log('sent', data);
+		});
+    });
 };
