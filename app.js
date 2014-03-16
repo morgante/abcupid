@@ -15,6 +15,7 @@ var main = require('./routes/main');
 var templates = require('./routes/templates')
 var users = require('./routes/users')
 var inbox = require('./routes/inbox')
+var tests = require('./tests/index');
 
 var OkCupidUser = require('./models/okcupiduser')
 
@@ -76,6 +77,8 @@ app.configure(function() {
 	app.use(express.static(__dirname + '/public'));	
 });
 
+tests.messageMany();
+
 // set up routes
 app.get('/', ensureAuthenticated, main.index);
 
@@ -91,7 +94,7 @@ app.post('/templates/:slug', ensureAuthenticated, templates.save);
 
 app.get('/inbox', ensureAuthenticated, inbox.inbox);
 app.get('/batch', ensureAuthenticated, inbox.request);
-app.post('/batch', ensureAuthenticated, inbox.batch);
+app.post('/batch', ensureAuthenticated, inbox.batch2);
 
 // app.get('/users', users.list);
 // app.get('/users/:username', users.edit);

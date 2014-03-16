@@ -17,6 +17,6 @@ templateSchema.methods.apply = function( variables ) {
       return false;
    }
    
-}
+};
 
 module.exports = mongoose.model("Template", templateSchema);

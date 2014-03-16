@@ -1,5 +1,6 @@
 var api = require('../okc/api')
-var messenger = require('../okc/messenger')
+var messenger = require('../okc/messenger');
+var messenger2 = require('../okc/messenger2');
 
 var _    = require('underscore')
    async = require('async')
@@ -18,8 +19,42 @@ exports.request = function( req, res, next ) {
         searchUrl: req.user.match_url,
         templates: req.user._templates,
         message: req.session.messages
-    }); 
-}
+    });
+};
+
+exports.batch2 = function(req, res, next) {
+  user = req.user;
+  user.match_url = req.body.searchUrl;
+  user._templates = req.body.templates;
+
+  // save preferences
+  user.save( function( err, user ) {
+
+  });
+
+  var automatorOptions = {
+    matchOptions: {
+        seachUrl: user.match_url
+    },
+    messageOptions: {
+        dryRun: false
+    },
+    maxMessages: req.body.count,
+    delay: 1000
+  };
+
+  user.getTemplates( function( err, templates ) {
+
+    var client = api.createClient();
+
+    client.authenticate( user.username, user.password, function( success ) {        
+        messenger2.messageMany(client, templates, automatorOptions);
+        
+        req.session.messages =  ["Sent batch request to message users."];
+        return res.redirect('/batch');
+    });
+  });
+};
 
 exports.batch = function( req, res, next ) {
 
@@ -41,7 +76,7 @@ exports.batch = function( req, res, next ) {
         },
         maxMessages: req.body.count,
         delay: 1000
-    }
+    };
 
     user.getTemplates( function( err, templates ) {
 
