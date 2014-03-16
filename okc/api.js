@@ -6,7 +6,7 @@ var htmlparser = require('htmlparser')
 var querystring = require('querystring')
 var async = require('async')
 
-var uri = 'http://www.okcupid.com'
+var uri = 'https://www.okcupid.com'
 var user_agent = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_6; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.134 Safari/534.16'
 var authcodeRegex = /Profile.initialize\(user_info, .+, '(\d,\d,\d+,[^']+)'/
 
