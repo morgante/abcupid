@@ -18,7 +18,7 @@ function BrainStream(options) {
 			self.push({
 				username: item.username,
 				message: 'Hey there! What is up?',
-				template: 1
+				template: 'some-special'
 			});
 			callback();
 		}, 10);

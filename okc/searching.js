@@ -27,6 +27,9 @@ function MatchStream(opts) {
 			self.push({
 				username: 'cosmic-reaction'
 			});
+			self.push({
+				username: 'redddcat'
+			});
 			self.push(null);
 		} else {
 			self.client.matchSearch({
