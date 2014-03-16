@@ -3,11 +3,15 @@ var async = require('async');
 var Stream = require('stream');
 var ReadableStream = Stream.Readable;
 var WritableStream = Stream.Writable;
+var TransformStream = Stream.Transform;
+var DuplexStream = Stream.Duplex;
 var brake = require('brake');
 var util = require('util');
 
-function MessageStream(client) {
+function MatchStream(opts) {
 	var self = this;
+
+	console.log(opts);
 
 	ReadableStream.call(self, {objectMode: true});
 
@@ -20,37 +24,67 @@ function MessageStream(client) {
 	};
 }
 
-util.inherits(MessageStream, ReadableStream);
+util.inherits(MatchStream, ReadableStream);
 
-function SendStream() {
+function ThrottleStream() {
 	var self = this;
 	var queue = [];
-	var delay = 1000;
+	var delay = 10000;
 
-	WritableStream.call(self, {objectMode: true});
+	DuplexStream.call(self, {objectMode: true});
 
 	function doWrite() {
 		if (queue.length < 1) {
 			return;
+		} else {
+			var item = queue.shift();
+			self.push(item);
 		}
-
-		var item = queue.shift();
-
-		console.log(item);
 	}
 
-	setInterval(doWrite, delay);
+	self._read = function(size) {
+		setInterval(doWrite, delay);
+	};
 
 	self._write = function(data, encoding, callback) {
 		queue.push(data);
+
 		callback();
 	};
 }
 
-util.inherits(SendStream, WritableStream);
+util.inherits(ThrottleStream, DuplexStream);
+
+function SendStream() {
+	var self = this;
+	var queue = [];
+
+	TransformStream.call(self, {objectMode: true});
+
+	self._transform = function(item, encoding, callback) {
+		setTimeout(function() {
+			self.push(item);
+			callback();
+		}, 10);
+	};
+}
+
+util.inherits(SendStream, TransformStream);
+
+exports.MatchStream = MatchStream;
+exports.ThrottleStream = ThrottleStream;
+exports.SendStream = SendStream;
 
 exports.messageMany = function(client, templates, options) {
 
-	var stream = new MessageStream();
-	stream.pipe(new SendStream());
+	// var stream = new MessageStream();
+	// var throttler = new ThrottleStream();
+	// var sender = new SendStream();
+
+	// sender.on('data', function(data) {
+	// 	console.log('hello');
+	// 	console.log(data);
+	// });
+
+	// stream.pipe(throttler).pipe(sender);
 };

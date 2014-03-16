@@ -1,5 +1,5 @@
 var api = require('../okc/api');
-var messenger = require('../okc/messenger2');
+var okc = require('../okc/messenger2');
 
 exports.messageMany = function() {
 	var username = process.env.TEST_USERNAME;
@@ -8,12 +8,19 @@ exports.messageMany = function() {
 	var client = api.createClient();
 
 	var options = {
-
 	};
 
 	console.log('testing message many');
 
+	console.log(username, password);
+
 	client.authenticate( username, password, function( success ) {
+		var matches = new okc.MatchStream({a: 'joe'});
+
+		matches.on('data', function(data) {
+			console.log(data);
+		});
+
 		messenger.messageMany(client, [], options);
     });
 };
