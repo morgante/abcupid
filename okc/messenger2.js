@@ -8,24 +8,6 @@ var DuplexStream = Stream.Duplex;
 var brake = require('brake');
 var util = require('util');
 
-function MatchStream(opts) {
-	var self = this;
-
-	console.log(opts);
-
-	ReadableStream.call(self, {objectMode: true});
-
-	self._read = function(size) {
-		self.push({'test': 'a'});
-		self.push({'test': 'b'});
-		self.push({'test': 'c'});
-		self.push({'test': 'd'});
-		self.push(null);
-	};
-}
-
-util.inherits(MatchStream, ReadableStream);
-
 function ThrottleStream() {
 	var self = this;
 	var queue = [];
@@ -55,36 +37,28 @@ function ThrottleStream() {
 
 util.inherits(ThrottleStream, DuplexStream);
 
-function SendStream() {
+function SendStream(opts) {
 	var self = this;
-	var queue = [];
+
+	opts = _.defaults(opts, {
+		client: null
+	});
+
+	this.opts = opts;
+	this.client = opts.client;
 
 	TransformStream.call(self, {objectMode: true});
 
 	self._transform = function(item, encoding, callback) {
-		setTimeout(function() {
+		self.client.message(item.username, item.message, function(err, res, data) {
+			console.log(err, res, data);
 			self.push(item);
 			callback();
-		}, 10);
+		});
 	};
 }
 
 util.inherits(SendStream, TransformStream);
 
-exports.MatchStream = MatchStream;
 exports.ThrottleStream = ThrottleStream;
 exports.SendStream = SendStream;
-
-exports.messageMany = function(client, templates, options) {
-
-	// var stream = new MessageStream();
-	// var throttler = new ThrottleStream();
-	// var sender = new SendStream();
-
-	// sender.on('data', function(data) {
-	// 	console.log('hello');
-	// 	console.log(data);
-	// });
-
-	// stream.pipe(throttler).pipe(sender);
-};

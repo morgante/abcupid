@@ -214,7 +214,7 @@ exports.createClient = function() {
 				searchUrl: '/match'				
 			})
 			
-			var url = opt.searchUrl.replace('http://', '').replace('www.okcupid.com', '').replace('okcupid.com', '')
+			var url = opt.searchUrl.replace('https://', '').replace('http://', '').replace('www.okcupid.com', '').replace('okcupid.com', '')
 				.replace(/[&\?]?low=\d+/, '')
 				.replace(/[&\?]?count=\d+/, '')
 					
@@ -231,8 +231,6 @@ exports.createClient = function() {
          // console.log( url );
 			
 			get(url, function(data, response) {
-            // console.log( data );
-			   
 				parseSearchResults(data, callback)
 			})
 		},

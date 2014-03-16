@@ -1,5 +1,7 @@
 var api = require('../okc/api');
 var okc = require('../okc/messenger2');
+var searching = require('../okc/searching');
+var intellect = require('../okc/intellect');
 
 exports.messageMany = function() {
 	var username = process.env.TEST_USERNAME;
@@ -14,13 +16,41 @@ exports.messageMany = function() {
 
 	console.log(username, password);
 
-	client.authenticate( username, password, function( success ) {
-		var matches = new okc.MatchStream({a: 'joe'});
+	var matches = new searching.MatchStream({
+		client: client,
+		fake: true
+	});
 
-		matches.on('data', function(data) {
-			console.log(data);
-		});
+	var brain = new intellect.BrainStream({});
+	var throttler = new okc.ThrottleStream({});
+	var sender = new okc.SendStream({
+		client: client
+	});
 
-		messenger.messageMany(client, [], options);
-    });
+	matches.pipe(brain).pipe(sender);
+
+	brain.on('data', function(data) {
+		console.log('thought', data);
+	});
+
+	sender.on('data', function(data) {
+		console.log('sent', data);
+	});
+
+	// client.authenticate( username, password, function( success ) {
+	// 	var matches = new searching.MatchStream({
+	// 		client: client,
+	// 		fake: true
+	// 	});
+
+	// 	var intellect = new intellect.BrainStream({});
+	// 	var throttler = new okc.ThrottleStream({});
+	// 	var sender = new okc.SendStream({});
+
+	// 	matches.pipe(intellect).pipe(throttler).pipe(sender);
+
+	// 	intellect.on('data', function(data) {
+	// 		console.log('thought', data);
+	// 	});
+ //    });
 };
