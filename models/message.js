@@ -76,7 +76,7 @@ function SaveStream(options) {
          body: item.message,
          template: item.template
       }, function(err, data) {
-         callback(err);
+         callback();
       });
    };
 }

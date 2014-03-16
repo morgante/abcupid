@@ -8,20 +8,27 @@ var DuplexStream = Stream.Duplex;
 var brake = require('brake');
 var util = require('util');
 
+var Message = require('../models/message');
+
 function BrainStream(options) {
 	var self = this;
 
 	TransformStream.call(self, {objectMode: true});
 
 	self._transform = function(item, encoding, callback) {
-		setTimeout(function() {
-			self.push({
-				username: item.username,
-				message: 'Hey there! What is up?',
-				template: 'some-special'
-			});
-			callback();
-		}, 10);
+		Message.findOne({to: item.username}, function(err, message) {
+			if (err || message) {
+				callback();
+			} else {
+				// haven't messaged them before
+				self.push({
+					username: item.username,
+					message: "Hey there! What's up?",
+					template: 'simple-sup'
+				});
+				callback();
+			}
+		});
 	};
 }
 

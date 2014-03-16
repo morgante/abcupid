@@ -57,14 +57,12 @@ exports.createClient = function() {
 	};
 
 	var get2 = function(opts, callback) {
-		console.log('getting', opts.path);
 		opts = _.defaults(opts, {
 			url: uri + opts.path,
 			method: 'GET',
 			followRedirects:false
 		});
 		request(opts, function( err, response, body ) {
-			console.log('hehlo', err, response, body);
 			callback(err, body, response);
 		});
 	};
@@ -209,7 +207,6 @@ exports.createClient = function() {
 				path: '/mailbox',
 				qs: params, 
 			}, function(err, data, response) {
-				console.log('bob', data);
 				if (callback != null) {
 					callback(err, data, response);
 				}

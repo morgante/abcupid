@@ -16,8 +16,9 @@ var templates = require('./routes/templates')
 var users = require('./routes/users')
 var inbox = require('./routes/inbox')
 var tests = require('./tests/index');
+var automate = require('./okc/automate');
 
-var OkCupidUser = require('./models/okcupiduser')
+var OkCupidUser = require('./models/okcupiduser');
 
 // Passport session setup.
 passport.serializeUser(function(user, done) {
@@ -77,7 +78,8 @@ app.configure(function() {
 	app.use(express.static(__dirname + '/public'));	
 });
 
-tests.messageMany();
+// Automate this shit
+automate.messageMany();
 
 // set up routes
 app.get('/', ensureAuthenticated, main.index);

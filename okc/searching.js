@@ -7,6 +7,7 @@ var TransformStream = Stream.Transform;
 var DuplexStream = Stream.Duplex;
 var brake = require('brake');
 var util = require('util');
+var Profile = require('../models/profile');
 
 function MatchStream(opts) {
 	var self = this;
@@ -25,6 +26,60 @@ function MatchStream(opts) {
 	self._read = function(size) {
 		if (self.opts.fake) {
 			self.push({
+				username: 'Staciamegan'
+			});
+			self.push(null);
+		} else {
+			self.client.matchSearch({
+				searchUrl: self.url,
+			}, function(results) {
+				_.each(results, function(username, cb) {
+					self.push({username: username});
+				});
+			});
+		}
+	};
+}
+
+util.inherits(MatchStream, ReadableStream);
+
+function FilterStream(options) {
+	var self = this;
+
+	TransformStream.call(self, {objectMode: true});
+
+	self._transform = function(item, encoding, callback) {
+		Profile.findOne({username: item.username}, function(err, message) {
+			if (err || message) {
+				callback();
+			} else {
+				// haven't messaged them before
+				self.push({
+					username: item.username
+				});
+				callback();
+			}
+		});
+	};
+}
+
+util.inherits(FilterStream, TransformStream);
+
+function ProfileStream(options) {
+	var self = this;
+
+	options = _.defaults(options, {
+		fake: false
+	});
+
+	this.options = options;
+	this.client = options.client;
+
+	TransformStream.call(self, {objectMode: true});
+
+	self._transform = function(item, encoding, callback) {
+		if (self.options.fake) {
+			self.push({
 				username: 'Staciamegan',
 				lastContacted: null,
 				essays: {
@@ -42,23 +97,16 @@ function MatchStream(opts) {
 			});
 			self.push(null);
 		} else {
-			self.client.matchSearch({
-				searchUrl: self.url,
-			}, function(results) {
-				async.each(results.slice(0,1), function(username, cb) {
-					self.client.getProfile(username, function(profile) {
-						self.push(profile);
-						cb(null);
-					});
-				}, function(err) {
-					// finish the stream
-					// self.push(null);
-				});
+			self.client.getProfile(item.username, function(profile) {
+				self.push(profile);
+				callback();
 			});
 		}
 	};
 }
 
-util.inherits(MatchStream, ReadableStream);
+util.inherits(ProfileStream, TransformStream);
 
 exports.MatchStream = MatchStream;
+exports.FilterStream = FilterStream;
+exports.ProfileStream = ProfileStream;

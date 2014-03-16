@@ -11,7 +11,7 @@ var util = require('util');
 function ThrottleStream() {
 	var self = this;
 	var queue = [];
-	var delay = 10000;
+	var delay = 1000;
 
 	DuplexStream.call(self, {objectMode: true});
 
@@ -47,18 +47,16 @@ function SendStream(opts) {
 	this.opts = opts;
 	this.client = opts.client;
 
-	TransformStream.call(self, {objectMode: true});
+	WritableStream.call(self, {objectMode: true});
 
-	self._transform = function(item, encoding, callback) {
+	self._write = function(item, encoding, callback) {
 		self.client.message(item.username, item.message, function(err, res, data) {
-			console.log(err, res, data);
-			self.push(item);
 			callback();
 		});
 	};
 }
 
-util.inherits(SendStream, TransformStream);
+util.inherits(SendStream, WritableStream);
 
 exports.ThrottleStream = ThrottleStream;
 exports.SendStream = SendStream;
