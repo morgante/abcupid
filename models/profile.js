@@ -12,11 +12,11 @@ var DuplexStream = Stream.Duplex;
 var util = require('util');
 
 var profileSchema = new Schema({
-	username	      : {type: String},
-	date           : {type: Date, default: Date.now},
-	essays         : {type: Schema.Types.Mixed},
-	status         : {type: String, default: 'active'},
-	lastContacted  : {type: Date}
+	username		: {type: String},
+	date			: {type: Date, default: Date.now},
+	essays			: {type: Schema.Types.Mixed},
+	status			: {type: String, default: 'active'},
+	lastContacted	: {type: Date}
 });
 
 function SaveStream(options) {
