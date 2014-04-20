@@ -34,9 +34,6 @@ exports.messageMany = function() {
 		var profiles = Profile.makeStream({
 		});
 
-		// pause as we set up all pipes
-		matches.pause();
-
 		// filter and complete profiles
 		var stream = matches.pipe(filter).pipe(profiler);
 
@@ -62,8 +59,5 @@ exports.messageMany = function() {
 		throttler.on('data', function(data) {
 			console.log('send?', data);
 		});
-
-		// kick off the show
-		matches.resume();
     });
 };
