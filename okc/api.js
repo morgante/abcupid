@@ -16,8 +16,7 @@ exports.createClient = function() {
 	var _username = null
 	var _userId = null
 
-	// use a cookie jar
-	request.defaults({jar: true});
+	var _cookies = request.jar();
 	
 	var post = function(path, params, callback) {	
 	   
@@ -26,7 +25,8 @@ exports.createClient = function() {
 	      method: 'POST',
 	      form: params,
 	      followRedirects:false,
-	      headers: {"User-Agent": user_agent, "Cookie": _sessionCookie}
+	      headers: {"User-Agent": user_agent, "Cookie": _sessionCookie},
+	      jar: _cookies
 	   }, function( err, response, body ) {
 	      if (response.headers['set-cookie'] != null)
 			{
@@ -50,7 +50,8 @@ exports.createClient = function() {
 	      url: uri + path,
 	      method: 'GET',
 	      followRedirects:false,
-	      headers: {"User-Agent": user_agent, "Cookie": _sessionCookie}
+	      headers: {"User-Agent": user_agent, "Cookie": _sessionCookie},
+	      jar: _cookies
 	   }, function( err, response, body ) {
 			callback(body, response)
 	   });
@@ -60,8 +61,11 @@ exports.createClient = function() {
 		opts = _.defaults(opts, {
 			url: uri + opts.path,
 			method: 'GET',
-			followRedirects:false
+			followRedirects: true,
+			jar: _cookies
 		});
+		console.log('get2');
+		console.log(opts);
 		request(opts, function( err, response, body ) {
 			callback(err, body, response);
 		});
@@ -200,6 +204,8 @@ exports.createClient = function() {
 				sendmsg: '1',
 				r1: username,
 				body: message,
+				subject: '',
+				threadid: 0,
 				authcode: _authcode,	
 				from_profile: '1',
 				ajax: '1',
@@ -208,6 +214,8 @@ exports.createClient = function() {
 				path: '/mailbox',
 				qs: params, 
 			}, function(err, data, response) {
+				// console.log('response...');
+				// console.log(err, data, response);
 				if (callback != null) {
 					callback(err, data, response);
 				}
