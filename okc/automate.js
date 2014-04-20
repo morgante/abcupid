@@ -49,11 +49,11 @@ exports.messageMany = function() {
 		throttler.pipe(sender);
 
 		matches.pipe(filter).on('data', function(data) {
-			console.log('found', data.username);
+			// console.log('found', data.username);
 		});
 
 		stream.on('data', function(data) {
-			// console.log('matched', data);
+			console.log('matched', data);
 		});
 
 		throttler.on('data', function(data) {

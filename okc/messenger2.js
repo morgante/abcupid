@@ -5,7 +5,6 @@ var ReadableStream = Stream.Readable;
 var WritableStream = Stream.Writable;
 var TransformStream = Stream.Transform;
 var DuplexStream = Stream.Duplex;
-var brake = require('brake');
 var util = require('util');
 
 function ThrottleStream() {
