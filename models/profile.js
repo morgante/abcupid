@@ -41,7 +41,7 @@ function SaveStream(options) {
 		}, {
 			upsert: true,
 		}, function(err) {
-			console.log('saved', item);
+			// console.log('saved', item);
 			callback();
 		});
 	};

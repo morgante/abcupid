@@ -175,6 +175,7 @@ exports.createClient = function() {
 						if (_authcode != null && callback) 
 						{
 							console.log('Authcode found. You are ready to send messages.')
+							console.log(_authcode);
 							callback(true)
 						}
 						else 

@@ -50,6 +50,7 @@ function SendStream(opts) {
 
 	self._write = function(item, encoding, callback) {
 		self.client.message(item.username, item.message, function(err, res, data) {
+			console.log('sent message', err);
 			callback();
 		});
 	};

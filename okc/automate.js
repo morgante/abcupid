@@ -48,9 +48,9 @@ exports.messageMany = function() {
 		throttler.pipe(messages);
 		throttler.pipe(sender);
 
-		matches.pipe(filter).on('data', function(data) {
+		// matches.on('data', function(data) {
 			// console.log('found', data.username);
-		});
+		// });
 
 		stream.on('data', function(data) {
 			console.log('matched', data);

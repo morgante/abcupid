@@ -12,13 +12,18 @@ function MatchStream(opts) {
 	var self = this;
 
 	opts = _.defaults(opts, {
-		url: 'https://www.okcupid.com/match',
-		fake: false
+		url: 'https://www.okcupid.com/match?timekey=1',
+		fake: false,
+		count: 2 // how many profiles to read
 	});
 
 	this.opts = opts;
 	this.client = opts.client;
 	this.url = opts.url;
+	this.count = 50;
+	this.page = 0;
+	this.totalRead = 0;
+	this.matches = [];
 
 	ReadableStream.call(self, {objectMode: true});
 
@@ -29,12 +34,35 @@ function MatchStream(opts) {
 			});
 			self.push(null);
 		} else {
+			var url = self.url + '&count=' + self.count;
+			var low = self.page * self.count;
+
+			if (self.page > 0) {
+				url = url + '&low=' + low;
+			}
+
+			if (low >= self.count) {
+				return;
+			}
+
+			self.page++;
+
+			// console.log('reading from ' + url);
+
 			self.client.matchSearch({
-				searchUrl: self.url,
+				searchUrl: url,
 			}, function(results) {
 				_.each(results, function(username, cb) {
-					self.push({username: username});
+					if (self.totalRead < self.opts.count && !_.contains(self.matches, username)) {
+						self.matches.push(username);
+						self.push({username: username});
+						self.totalRead++;
+					}
 				});
+
+				if (self.totalRead >= self.opts.count) {
+					self.push(null);
+				}
 			});
 		}
 	};
