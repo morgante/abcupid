@@ -7,14 +7,14 @@ var express = require('express')
 		, passport = require('passport')
 		, LocalStrategy = require('passport-local').Strategy
 		
-var pkg = require('./package.json')
+var pkg = require('./package.json');
 
-var db = require('./helpers/connect')
+var db = require('./helpers/connect');
 
 var main = require('./routes/main');
-var templates = require('./routes/templates')
-var users = require('./routes/users')
-var inbox = require('./routes/inbox')
+var templates = require('./routes/templates');
+var users = require('./routes/users');
+var inbox = require('./routes/inbox');
 var tests = require('./tests/index');
 var automate = require('./okc/automate');
 

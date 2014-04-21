@@ -14,7 +14,7 @@ function MatchStream(opts) {
 	opts = _.defaults(opts, {
 		url: 'https://www.okcupid.com/match?timekey=1',
 		fake: false,
-		count: 2 // how many profiles to read
+		count: 100 // how many profiles to read
 	});
 
 	this.opts = opts;

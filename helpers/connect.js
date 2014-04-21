@@ -1,9 +1,11 @@
-var mongoose = require('mongoose')
+var mongoose = require('mongoose');
 		
-var pkg = require('../package.json')
+var pkg = require('../package.json');
+
+var name = 'abcupid_test';
 
 // set up Mongoose
-mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/' + pkg.name);
+mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/' + name);
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
