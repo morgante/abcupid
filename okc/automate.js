@@ -1,5 +1,5 @@
 var api = require('../okc/api');
-var okc = require('../okc/messenger2');
+var okc = require('../okc/messenger');
 var searching = require('../okc/searching');
 var intellect = require('../okc/intellect');
 
