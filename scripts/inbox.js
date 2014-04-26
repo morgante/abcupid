@@ -4,6 +4,7 @@ var inbox = require('../okc/inbox');
 
 var Message = require('../models/message');
 
+var db = require('./helpers/connect');
 
 exports.backup = function() {
    var username = process.env.TEST_USERNAME;
