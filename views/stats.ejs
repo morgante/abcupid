@@ -1,0 +1,15 @@
+<% layout('layout') -%>
+<h1>Stats</h1>
+
+<div class="stats templates">
+<% templates.forEach( function( template ) { %>
+	<div class="template">
+		<h2><%= template.name %></h2>
+		<h3><%= Math.floor(template.rate * 100) %>%</h3>
+		<ul class="replies">
+		<% template.replies.forEach(function(reply) { %>
+			<li><%= reply.body %></li>
+		<% }) %>
+		</ul>
+<% }) %>
+</div>

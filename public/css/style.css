@@ -2,3 +2,24 @@
 body {
 	padding-top: 80px;
 }
+
+/* stats */
+.stats.templates .template {
+	position: relative;
+}
+
+.stats.templates .template h3 {
+	position: absolute;
+	right: 10px;
+	top: 0px;
+}
+
+.stats.templates ul.replies {
+	height: 30px;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.stats.templates ul.replies.expanded {
+	height: auto;
+}

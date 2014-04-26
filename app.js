@@ -13,6 +13,8 @@ var db = require('./helpers/connect');
 var automate = require('./okc/automate');
 var inbox = require('./scripts/inbox');
 
+var stats = require('./routes/stats');
+
 var app = express();
 // configure Express
 app.configure(function() {
@@ -27,7 +29,7 @@ app.configure(function() {
 	app.use(express.session({ secret: process.env.SECRET }));
 	
 	app.use(app.router);
-	app.use(express.static(__dirname + '/public'));	
+	app.use(express.static(__dirname + '/public'));
 });
 
 // Automate this shit
@@ -35,6 +37,9 @@ app.configure(function() {
 
 // Back up inbox
 inbox.backup();
+
+// Show stats
+app.get('/', stats.overview);
 
 // start listening
 app.listen( process.env.PORT , function() {
