@@ -6,7 +6,9 @@ var intellect = require('../okc/intellect');
 var Message = require('../models/message');
 var Profile = require('../models/profile');
 
-exports.messageMany = function() {
+var db = require('../helpers/connect');
+
+function messageMany() {
 	var username = process.env.TEST_USERNAME;
 	var password = process.env.TEST_PASSWORD;
 
@@ -60,4 +62,6 @@ exports.messageMany = function() {
 			console.log('send?', data);
 		});
     });
-};
+}
+
+messageMany();
