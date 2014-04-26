@@ -8,6 +8,8 @@ function getStats(cb) {
 
 	var query = Message.find({"template": {"$ne": null, "$exists": true}});
 
+	query.where('from').equals(process.env.TEST_USERNAME);
+
 	query.exec(function(err, results) {
 		var templates = _.groupBy(results, function(message) {
 			return message.template;
@@ -48,10 +50,23 @@ function getStats(cb) {
 	});
 }
 
+function getTotal(cb) {
+	var query = Message.find({"template": {"$ne": null, "$exists": true}});
+
+	query.where('from').equals(process.env.TEST_USERNAME);
+
+	query.count(cb);
+}
+
 exports.overview = function(req, res) {
-	getStats(function(err, stats) {
+	async.parallel([
+		getStats,
+		getTotal
+	], function(err, results) {
+		console.log(results);
 		res.render('stats', {
-			templates: stats
+			templates: results[0],
+			total: results[1]
 		});
 	});
 };

@@ -23,6 +23,6 @@ function backup() {
 
       messages.pipe(saving);
     });
-};
+}
 
 backup();
