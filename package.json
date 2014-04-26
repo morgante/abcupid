@@ -2,18 +2,19 @@
   "name": "ABCupid",
   "version": "0.2.0",
   "dependencies": {
-    "express": "3.x.x",
+    "async": "^0.7.0",
+    "cheerio": "^0.15.0",
     "ejs": ">= 0.0.0",
     "ejs-locals": ">= 0.0.0",
-    "async": ">= 0.0.0",
-    "request": ">= 0.0.0",
-    "mongoose": ">= 0.0.0",
+    "express": "3.x.x",
     "htmlparser": ">= 0.0.0",
-    "underscore": ">= 0.0.0",
+    "mongoose": ">= 0.0.0",
+    "passport": ">= 0.0.0",
+    "passport-local": ">= 0.0.0",
+    "request": ">= 0.0.0",
     "restler": "*",
     "soupselect": "*",
-    "passport": ">= 0.0.0",
-    "passport-local": ">= 0.0.0"
+    "underscore": ">= 0.0.0"
   },
   "engines": {
     "node": "0.10.x",

@@ -10,6 +10,7 @@ var WritableStream = Stream.Writable;
 var TransformStream = Stream.Transform;
 var DuplexStream = Stream.Duplex;
 var util = require('util');
+var Message;
 
 var messageSchema = new Schema({
 	from:       String,
@@ -61,21 +62,24 @@ function SaveStream(options) {
    var self = this;
 
    options = _.defaults(options, {
-      model: null,
-      from: 'someone'
+      owner: 'someone'
    });
 
-   self.options = options;
+   self.opts = options;
+   self.model = Message;
 
    WritableStream.call(self, {objectMode: true});
 
    self._write = function(item, encoding, callback) {
-      self.options.model.log({
-         from: self.options.from,
-         to: item.username,
-         body: item.message,
-         template: item.template
-      }, function(err, data) {
+      console.log(item);
+
+      var data = _.defaults(item, {
+         from: self.opts.owner,
+         to: self.opts.owner,
+         body: item.message
+      });
+
+      self.model.log(data, function(err, data) {
          callback();
       });
    };
@@ -89,4 +93,4 @@ messageSchema.statics.makeStream = function(options) {
    return new SaveStream(options);
 };
 
-module.exports = mongoose.model("Message", messageSchema);
+Message = module.exports = mongoose.model("Message", messageSchema);
