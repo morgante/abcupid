@@ -10,9 +10,6 @@ var pkg = require('./package.json');
 
 var db = require('./helpers/connect');
 
-var automate = require('./okc/automate');
-var inbox = require('./scripts/inbox');
-
 var stats = require('./routes/stats');
 
 var app = express();
@@ -31,12 +28,6 @@ app.configure(function() {
 	app.use(app.router);
 	app.use(express.static(__dirname + '/public'));
 });
-
-// Automate this shit
-// automate.messageMany();
-
-// Back up inbox
-inbox.backup();
 
 // Show stats
 app.get('/', stats.overview);
