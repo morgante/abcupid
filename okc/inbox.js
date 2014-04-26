@@ -20,7 +20,7 @@ function MessageStream(opts) {
 
 	this.opts = opts;
 	this.client = opts.client;
-	this.username = client.username;
+	this.username = this.client.username;
 	this.path = opts.path;
 	this.started = false;
 
