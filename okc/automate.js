@@ -29,7 +29,7 @@ exports.messageMany = function() {
 			client: client
 		});
 		var messages = Message.makeStream({
-			from: username
+			owner: username
 		});
 		var profiles = Profile.makeStream({
 		});

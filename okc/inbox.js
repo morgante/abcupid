@@ -20,6 +20,7 @@ function MessageStream(opts) {
 
 	this.opts = opts;
 	this.client = opts.client;
+	this.username = client.username;
 	this.path = opts.path;
 	this.started = false;
 
@@ -78,6 +79,7 @@ function MessageStream(opts) {
 									timestamp = new Date(timestamp);
 
 									self.push({
+										to: self.username,
 										from: name,
 										message: content,
 										timestamp: timestamp

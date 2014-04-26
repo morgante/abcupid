@@ -34,7 +34,7 @@ function BrainStream(options) {
 				var text = templates[template];
 
 				self.push({
-					username: item.username,
+					to: item.username,
 					message: text,
 					template: template
 				});

@@ -21,9 +21,5 @@ exports.backup = function() {
       });
 
       messages.pipe(saving);
-
-      // messages.on('data', function(data) {
-         // console.log('send?', data);
-      // });
     });
 };
