@@ -7,7 +7,8 @@ var templates = {
 	'pretty-cool': 'Your profile is pretty cool... but are you? What is the coolest thing you\'ve done lately?',
 	'quick-question': 'Quick question - what do you expect out of OKCupid matches?',
 	'taste': 'Wow, you have incredible taste. I wish I were as cool as you... maybe you can teach me?',
-	'standard-hello': 'Hello, how are you?'
+	'standard-hello': 'Hello, how are you?',
+	'normally': 'I don\'t normally message people on this site, but when I do it\'s you. What\'s up?'
 };
 
 module.exports = {
