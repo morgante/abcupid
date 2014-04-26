@@ -6,6 +6,7 @@
 	<div class="template">
 		<h2><%= template.name %></h2>
 		<h3><%= Math.floor(template.rate * 100) %>%</h3>
+		<p><%= template.text %></p>
 		<ul class="replies">
 		<% template.replies.forEach(function(reply) { %>
 			<li><%= reply.body %></li>

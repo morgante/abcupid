@@ -8,6 +8,7 @@ var DuplexStream = Stream.Duplex;
 var util = require('util');
 
 var Message = require('../models/message');
+var templates = require('../helpers/templates');
 
 // just store templates here for now...
 var templates = {
@@ -31,8 +32,8 @@ function BrainStream(options) {
 				callback();
 			} else {
 				// haven't messaged them before
-				var template = _.sample(_.keys(templates));
-				var text = templates[template];
+				var template = templates.pick();
+				var text = templates.lookup(template);
 
 				self.push({
 					to: item.username,

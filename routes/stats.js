@@ -2,6 +2,7 @@ var _ = require('underscore');
 var async = require('async');
 
 var Message = require('../models/message');
+var templateHelper = require('../helpers/templates');
 
 function getStats(cb) {
 
@@ -31,6 +32,7 @@ function getStats(cb) {
 
 				var data = {
 					name: name,
+					text: templateHelper.lookup(name),
 					tries: template.messages.length,
 					replies: results,
 					hits: replies.length,
