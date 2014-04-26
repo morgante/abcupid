@@ -4,9 +4,9 @@ var inbox = require('../okc/inbox');
 
 var Message = require('../models/message');
 
-var db = require('./helpers/connect');
+var db = require('../helpers/connect');
 
-exports.backup = function() {
+function backup() {
    var username = process.env.TEST_USERNAME;
    var password = process.env.TEST_PASSWORD;
 
@@ -24,3 +24,5 @@ exports.backup = function() {
       messages.pipe(saving);
     });
 };
+
+backup();
