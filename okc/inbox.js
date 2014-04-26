@@ -62,28 +62,30 @@ function MessageStream(opts) {
 						} else {
 							var $ = cheerio.load(data);
 
-							var messages = $('ul#thread li.from_me'); // only collects messages from others
+							var messages = $('ul#thread li.to_me'); // only collects messages from others
 
 							messages.each(function(i, elem) {
 								try {
 
-									elem = cheerio.load(elem);
+									elem = $(elem);
 									
 									var a = $('a.photo', elem);
 									var name = a.attr('href').match(/profile\/(.+)\?/i)[1];
 
-									var content = $('.message_body', elem).text();
+									var content = $('.message_body', elem).text().trim();
 
 									var timestamp = elem.html().match(/fancydate_[0-9]+', ([0-9]+)/)[1];
 									timestamp =  timestamp * 1000;
 									timestamp = new Date(timestamp);
 
-									self.push({
+									var data = {
 										to: self.username,
 										from: name,
 										message: content,
 										timestamp: timestamp
-									});
+									};
+
+									self.push(data);
 
 								}
 								catch (err) {
