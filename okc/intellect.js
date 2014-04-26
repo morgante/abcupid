@@ -17,6 +17,7 @@ var templates = {
 	'pretty-cool': 'Your profile is pretty cool... but are you? What is the coolest thing you\'ve done lately?',
 	'quick-question': 'Quick question - what do you expect out of OKCupid matches?',
 	'taste': 'Wow, you have incredible taste. I wish I were as cool as you... maybe you can teach me?' // sooo dumb
+	'standard-hello': 'Hello, how are you?'
 };
 
 function BrainStream(options) {
