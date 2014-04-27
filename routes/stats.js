@@ -58,9 +58,29 @@ function getTotal(cb) {
 	query.count(cb);
 }
 
+function calcConfidence(template) {
+	var z = 1.96;
+	var p = template.hits / template.tries;
+	var n = template.tries;
+
+	var cf = z * Math.sqrt((p * (1-p))/n);
+
+	template.confidence = Math.floor(cf * 100);
+
+	return template;
+}
+
+function calcConfidences(stats, cb) {
+	cb(null, _.map(stats, calcConfidence));
+}
+
 exports.overview = function(req, res) {
 	async.parallel([
-		getStats,
+		function(cb) {
+			getStats(function(err, results) {
+				calcConfidences(results, cb);
+			});
+		},
 		getTotal
 	], function(err, results) {
 		console.log(results);
