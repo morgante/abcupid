@@ -19,27 +19,35 @@ var templates = {
 };
 
 module.exports = {
-	lookup: function(name, opts) {
+	lookup: function(name) {
+		var template = templates[name];
+
+		if (typeof template == 'string') {
+			template = {
+				active: true,
+				body: template
+			};
+		}
+
+		template.name = name;
+
+		return template;
+	},
+	list: templates,
+	pick: function(opts) {
 		var options = opts || {};
 
 		options = _.defaults(options, {
 			active: true // only fetch active templates
 		});
 
-		template = templates[name];
+		var name = _.sample(_.keys(templates));
+		var template = this.lookup(name);
 
-		if (typeof template === 'string') {
-			return template;
+		if (options.active && !template.active) {
+			return this.pick(opts);
 		} else {
-			if (options.active && !template.active) {
-				return this.lookup(name, options);
-			} else {
-				return template.body;
-			}
+			return template.body;
 		}
-	},
-	list: templates,
-	pick: function() {
-		return _.sample(_.keys(templates));
 	}
 };

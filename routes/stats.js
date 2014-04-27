@@ -34,7 +34,7 @@ function getStats(cb) {
 
 				var data = {
 					name: name,
-					text: templateHelper.lookup(name, {active: false}),
+					text: templateHelper.lookup(name).body,
 					tries: template.messages.length,
 					replies: results,
 					hits: replies.length,

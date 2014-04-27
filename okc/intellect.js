@@ -21,13 +21,13 @@ function BrainStream(options) {
 				callback();
 			} else {
 				// haven't messaged them before
-				var template = templates.pick();
-				var text = templates.lookup(template);
+				var template = templates.pick({active: true});
+				var text = template.body;
 
 				self.push({
 					to: item.username,
 					message: text,
-					template: template
+					template: template.name
 				});
 				callback();
 			}
