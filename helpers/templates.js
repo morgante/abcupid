@@ -47,7 +47,7 @@ module.exports = {
 		if (options.active && !template.active) {
 			return this.pick(opts);
 		} else {
-			return template.body;
+			return template;
 		}
 	}
 };
