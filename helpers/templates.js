@@ -20,7 +20,9 @@ var templates = {
 
 module.exports = {
 	lookup: function(name, opts) {
-		opts = _.defaults(opts, {
+		var options = opts || {};
+
+		options = _.defaults(options, {
 			active: true // only fetch active templates
 		});
 
@@ -29,7 +31,7 @@ module.exports = {
 		if (typeof template === 'string') {
 			return template;
 		} else {
-			if (opts.active && !template.active) {
+			if (options.active && !template.active) {
 				return this.lookup(name, active);
 			} else {
 				return template.body;
