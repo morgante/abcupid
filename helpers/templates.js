@@ -32,7 +32,7 @@ module.exports = {
 			return template;
 		} else {
 			if (options.active && !template.active) {
-				return this.lookup(name, active);
+				return this.lookup(name, options);
 			} else {
 				return template.body;
 			}
