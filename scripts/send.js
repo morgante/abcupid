@@ -12,11 +12,14 @@ function messageMany() {
 	var username = process.env.TEST_USERNAME;
 	var password = process.env.TEST_PASSWORD;
 
+	var matchUrl = process.env.OKC_MATCH;
+
 	var client = api.createClient();
 
 	client.authenticate( username, password, function( success ) {
 		var matches = new searching.MatchStream({
-			client: client
+			client: client,
+			url: matchUrl
 		});
 
 		var filter = new searching.FilterStream({});
