@@ -4,7 +4,7 @@
 <div class="stats templates">
 <% templates.forEach( function( template ) { %>
 	<div class="template">
-		<h2><%= template.name %></h2>
+		<h2><%= template.name %><span class="badge"><%= template.tries %></span></h2>
 		<h3><%= Math.floor(template.rate * 100) %> ± <%= template.confidence %>%</h3>
 		<p><%= template.text %></p>
 		<ul class="replies">
