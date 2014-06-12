@@ -11,6 +11,7 @@ var pkg = require('./package.json');
 var db = require('./helpers/connect');
 
 var stats = require('./routes/stats');
+var main = require('./routes/main');
 
 var app = express();
 // configure Express
@@ -30,7 +31,10 @@ app.configure(function() {
 });
 
 // Show stats
-app.get('/', stats.overview);
+app.get('/stats', stats.overview);
+
+// Basic index
+app.get('/', main.index);
 
 // start listening
 app.listen( process.env.PORT , function() {
