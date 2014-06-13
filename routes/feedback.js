@@ -4,12 +4,15 @@ var forms = require('forms');
 var Feedback = require('../models/feedback');
 
 var questions = forms.create({
+	best: forms.fields.string({ required: true, label: 'What were your date\'s best qualities?', widget: forms.widgets.textarea()}),
+	worst: forms.fields.string({ required: true, label: 'What was annoying or distasteful about your date?', widget: forms.widgets.textarea()}),
+	improve: forms.fields.string({ required: true, label: 'How could the date have been improved?', widget: forms.widgets.textarea()}),
 	again: forms.fields.string({
 		label: 'Would you go on another date?',
 		choices: {yes: 'Yes', no: 'No'},
-		widget: forms.widgets.multipleRadio()
-    }),
-	attractive: forms.fields.string({ required: true, label: 'What were your {x} best qualities?', widget: forms.widgets.textarea()})
+		widget: forms.widgets.multipleRadio(),
+		fieldsetClasses: 'choice'
+    })
 });
 
 function getState(from, to) {
@@ -19,8 +22,10 @@ function getState(from, to) {
 		state = 0;
 	} else if (from.answers === undefined && to.answers !== undefined) {
 		state = 1;
-	} else {
+	} else if (from.answers !== undefined && to.answers === undefined) {
 		state = 2;
+	} else {
+		state = 3;
 	}
 
 	console.log('state', state);
@@ -42,7 +47,11 @@ function fill(req, res, next, form) {
 		var to = _.first(_.reject(feedback.responses, checker));
 		var state = getState(from, to);
 
-		res.render('feedback-give', { title: 'Express', from: from, to: to, state: state, form: form });
+		if (state < 3) {
+			res.render('feedback-give', { title: 'Express', from: from, to: to, state: state, form: form });
+		} else {
+			show(req, res, next);
+		}
 	});
 }
 
@@ -124,11 +133,13 @@ module.exports = {
 
 					var state = getState(from, to);
 
+					console.log(state);
+
 					feedback.save(function(err) {
 						if (err) {
 							res.send(err);
 						} else {
-							if (state < 2) {
+							if (state < 3) {
 								res.render('feedback-share', {to: to, url: '/feedback/' + feedback._id + '/from/' + to._id});
 							} else {
 								show(req, res, next);
@@ -149,6 +160,7 @@ module.exports = {
 		});
 	},
 	fill: function(req, res, next) {
+
 		fill(req, res, next, questions.toHTML());
 	}
 };

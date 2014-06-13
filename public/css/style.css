@@ -23,3 +23,34 @@ body {
 .stats.templates ul.replies.expanded {
 	height: auto;
 }
+
+/* feedback */
+form.feedback label {
+	display: block;
+	width: 100%;
+	padding: 0;
+	margin-bottom: 20px;
+	font-size: 21px;
+	line-height: 40px;
+	color: #333;
+	border: 0;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+form.feedback textarea {
+	width: 100%;
+	height: 5em;
+}
+
+form.feedback .choice input {
+	float: left;
+	display: block;
+	margin: 1em;
+}
+
+form.feedback .choice label {
+	float: left;
+	width: auto;
+	font-size: 100%;
+	margin-right: 30px;
+}

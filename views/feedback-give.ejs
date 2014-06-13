@@ -1,13 +1,18 @@
 <% layout('layout') -%>
 <h2>Give Feedback</h2>
-<% if (state === 0) { %>First, give <%= to.from.name %> some feedback.<% } %>
-<% if (state === 1) { %><%= to.from.name %> has written feedback from you. To access it, answer some questions about your date.<% } %>
+<div class="well info">
+<p>Hi <%= from.from.name %>,</p>
+<p>
+	<% if (state === 0) { %>First, give <%= to.from.name %> some feedback.<% } %>
+	<% if (state === 1) { %><%= to.from.name %> has written feedback for you. To access it, please answer some questions about your date.<% } %>
+</p>
+</div>
 
-<form method="POST" role="form">
+<form method="POST" role="form" class="date feedback">
 	<%- form %>
 	<div class="row">
 		<div class="span12 form controls">
-			<input type="submit" name="submit" id="submit" value="Create">
+			<input type="submit" name="submit" id="submit" value="Submit">
 		</div>
 	</div>
 </form>
