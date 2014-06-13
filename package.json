@@ -7,6 +7,7 @@
     "ejs": ">= 0.0.0",
     "ejs-locals": ">= 0.0.0",
     "express": "3.x.x",
+    "forms": "^0.7.0",
     "htmlparser": ">= 0.0.0",
     "mongoose": ">= 0.0.0",
     "passport": ">= 0.0.0",

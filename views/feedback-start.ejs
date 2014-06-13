@@ -1,0 +1,35 @@
+<% layout('layout') -%>
+<h2>New Date Feedback</h2>
+<p>We hope you had a wonderful date! This service will help you to find out how it went.</p>
+
+<form method="POST" role="form">
+	<div class="row">
+		<div class="form you span6">
+			<h3>You</h3>
+			<div class="form-group">
+				<label for="youName">What is your name?</label>
+				<input type="name" class="form-control" id="youName" name="youName" placeholder="Your name">
+			</div>
+			<div class="form-group">
+				<label for="youEmail">What is your email?</label>
+				<input type="email" class="form-control" id="youEmail" name="youEmail" placeholder="Your email">
+			</div>
+		</div>
+		<div class="form you span6">
+			<h3>Your Date</h3>
+			<div class="form-group">
+				<label for="theirName">What is your date's name?</label>
+				<input type="name" class="form-control" id="theirName" name="theirName" placeholder="Their name">
+			</div>
+			<div class="form-group">
+				<label for="theirEmail">What is your date's email?</label>
+				<input type="email" class="form-control" id="theirEmail" name="theirEmail" placeholder="Their email">
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="span12 form controls">
+			<input type="submit" name="submit" id="submit" value="Create">
+		</div>
+	</div>
+</form>

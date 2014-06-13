@@ -12,6 +12,7 @@ var db = require('./helpers/connect');
 
 var stats = require('./routes/stats');
 var main = require('./routes/main');
+var feedback = require('./routes/feedback');
 
 var app = express();
 // configure Express
@@ -35,6 +36,12 @@ app.get('/stats', stats.overview);
 
 // Basic index
 app.get('/', main.index);
+
+// Feedback
+app.get('/feedback/start', feedback.start);
+app.post('/feedback/start', feedback.create);
+app.get('/feedback/:id/from/:from', feedback.fill);
+app.post('/feedback/:id/from/:from', feedback.give);
 
 // start listening
 app.listen( process.env.PORT , function() {
