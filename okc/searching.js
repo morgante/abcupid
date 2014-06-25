@@ -6,6 +6,9 @@ var WritableStream = Stream.Writable;
 var TransformStream = Stream.Transform;
 var DuplexStream = Stream.Duplex;
 var util = require('util');
+var cheerio = require('cheerio');
+
+
 var Profile = require('../models/profile');
 
 function MatchStream(opts) {
@@ -47,22 +50,30 @@ function MatchStream(opts) {
 
 			self.page++;
 
-			// console.log('reading from ' + url);
+			self.client.get({
+				url: url
+			}, function(err, data) {
+				console.log('match', err, data);
 
-			self.client.matchSearch({
-				searchUrl: url,
-			}, function(results) {
-				_.each(results, function(username, cb) {
-					if (self.totalRead < self.opts.count && !_.contains(self.matches, username)) {
-						self.matches.push(username);
-						self.push({username: username});
-						self.totalRead++;
+				var $ = cheerio.load(data);
+
+				var $users = $('div.username a');
+
+				$users.each(function(i, user) {
+					try {
+						var $user = $(user);
+						var username = $user.text();
+
+						if (self.totalRead < self.opts.count && !_.contains(self.matches, username)) {
+							self.matches.push(username);
+							self.push({username: username});
+							self.totalRead++;
+						}
+					} catch (err) {
+						console.log('match err', err);
 					}
 				});
 
-				if (self.totalRead >= self.opts.count) {
-					self.push(null);
-				}
 			});
 		}
 	};
