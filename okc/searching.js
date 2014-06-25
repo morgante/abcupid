@@ -53,8 +53,6 @@ function MatchStream(opts) {
 			self.client.get({
 				url: url
 			}, function(err, data) {
-				console.log('match', err, data);
-
 				var $ = cheerio.load(data);
 
 				var $users = $('div.username a');
@@ -135,7 +133,27 @@ function ProfileStream(options) {
 			});
 			self.push(null);
 		} else {
-			self.client.getProfile(item.username, function(profile) {
+			self.client.get({
+				path: '/profile/' + item.username
+			}, function(err, data) {
+				var profile = {
+					essays: {}
+				};
+				var $ = cheerio.load(data);
+				
+				profile.username = item.username;
+
+				var lastContacted = $('div#contacted p').text();
+
+				profile.lastContacted = lastContacted;
+
+				// essays
+				for (var i = 0; i < 10; i++) {
+					var essay = $('div#essay_text_' + i).text();
+
+					profile.essays['essay_' + i] = essay;
+				}
+
 				self.push(profile);
 				callback();
 			});
