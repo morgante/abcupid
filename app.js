@@ -32,7 +32,7 @@ app.configure(function() {
 });
 
 // Show stats
-app.get('/stats', stats.overview);
+app.get('/stats/:username', stats.overview);
 
 // Basic index
 app.get('/', main.index);

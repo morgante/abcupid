@@ -4,11 +4,11 @@ var async = require('async');
 var Message = require('../models/message');
 var templateHelper = require('../helpers/templates');
 
-function getStats(cb) {
+function getStats(username, cb) {
 
 	var query = Message.find({"template": {"$ne": null, "$exists": true}});
 
-	query.where('from').equals(process.env.TEST_USERNAME);
+	query.where('from').equals(username);
 
 	query.exec(function(err, results) {
 		var templates = _.groupBy(results, function(message) {
@@ -50,10 +50,10 @@ function getStats(cb) {
 	});
 }
 
-function getTotal(cb) {
+function getTotal(username, cb) {
 	var query = Message.find({"template": {"$ne": null, "$exists": true}});
 
-	query.where('from').equals(process.env.TEST_USERNAME);
+	query.where('from').equals(username);
 
 	query.count(cb);
 }
@@ -75,13 +75,15 @@ function calcConfidences(stats, cb) {
 }
 
 exports.overview = function(req, res) {
+	var user = req.params.username;
+
 	async.parallel([
 		function(cb) {
-			getStats(function(err, results) {
+			getStats(user, function(err, results) {
 				calcConfidences(results, cb);
 			});
 		},
-		getTotal
+		getTotal.bind(undefined, user)
 	], function(err, results) {
 		console.log(results);
 		res.render('stats', {
