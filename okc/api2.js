@@ -3,7 +3,7 @@ var _ = require('underscore');
 
 var uri = 'https://www.okcupid.com';
 var user_agent = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_6; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.134 Safari/534.16';
-var authcodeRegex = /Profile.initialize\(.+ "authcode" : "(\S+)",/;
+var authcodeRegex = /"authcode" : "(.+)"/;
 
 exports.createClient = function() {
 	var cookies = request.jar();
@@ -14,7 +14,8 @@ exports.createClient = function() {
 			url: uri + opts.path,
 			followRedirects: true,
 			headers: {"User-Agent": user_agent},
-			jar: cookies
+			jar: cookies,
+			strictSSL: false
 		});
 
 		// console.log(opts);
@@ -52,14 +53,19 @@ exports.createClient = function() {
 			post({
 				path: '/login',
 				data: {username: username, password: password}
-			}, function(data, response) {
-				console.log("sucessfully authenticated to OKC");
+			}, function(err, body, res) {
+				if (err) {
+					console.log("Failed to authenticate to OKC");
+					callback(false);
+					return;
+				} else {
+					console.log("sucessfully authenticated to OKC");
+				}
 
 				get({path: '/profile/' + self.username}, function(err, data) {
-					// console.log(err, data);
 
 					var match = authcodeRegex.exec(data);
-
+					
 					if (match !== null) {
 						authcode = match[1];
 
