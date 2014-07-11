@@ -49,9 +49,12 @@ function SendStream(opts) {
 	WritableStream.call(self, {objectMode: true});
 
 	self._write = function(item, encoding, callback) {
-		self.client.message(item.to, item.message, function(err, res, data) {
-			console.log('sent message', err);
-			callback();
+		self.client.message(item.to, item.message, function(err, data) {
+			if (err) {
+				console.log('error sending message', err);
+			} else {
+				callback();
+			}
 		});
 	};
 }

@@ -6,6 +6,9 @@ var WritableStream = Stream.Writable;
 var TransformStream = Stream.Transform;
 var DuplexStream = Stream.Duplex;
 var util = require('util');
+var cheerio = require('cheerio');
+
+
 var Profile = require('../models/profile');
 
 function MatchStream(opts) {
@@ -47,22 +50,28 @@ function MatchStream(opts) {
 
 			self.page++;
 
-			// console.log('reading from ' + url);
+			self.client.get({
+				url: url
+			}, function(err, data) {
+				var $ = cheerio.load(data);
 
-			self.client.matchSearch({
-				searchUrl: url,
-			}, function(results) {
-				_.each(results, function(username, cb) {
-					if (self.totalRead < self.opts.count && !_.contains(self.matches, username)) {
-						self.matches.push(username);
-						self.push({username: username});
-						self.totalRead++;
+				var $users = $('div.username a');
+
+				$users.each(function(i, user) {
+					try {
+						var $user = $(user);
+						var username = $user.text();
+
+						if (self.totalRead < self.opts.count && !_.contains(self.matches, username)) {
+							self.matches.push(username);
+							self.push({username: username});
+							self.totalRead++;
+						}
+					} catch (err) {
+						console.log('match err', err);
 					}
 				});
 
-				if (self.totalRead >= self.opts.count) {
-					self.push(null);
-				}
 			});
 		}
 	};
@@ -124,7 +133,27 @@ function ProfileStream(options) {
 			});
 			self.push(null);
 		} else {
-			self.client.getProfile(item.username, function(profile) {
+			self.client.get({
+				path: '/profile/' + item.username
+			}, function(err, data) {
+				var profile = {
+					essays: {}
+				};
+				var $ = cheerio.load(data);
+				
+				profile.username = item.username;
+
+				var lastContacted = $('div#contacted p').text();
+
+				profile.lastContacted = lastContacted;
+
+				// essays
+				for (var i = 0; i < 10; i++) {
+					var essay = $('div#essay_text_' + i).text();
+
+					profile.essays['essay_' + i] = essay;
+				}
+
 				self.push(profile);
 				callback();
 			});

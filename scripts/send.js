@@ -1,4 +1,4 @@
-var api = require('../okc/api');
+var api = require('../okc/api2');
 var okc = require('../okc/messenger');
 var searching = require('../okc/searching');
 var intellect = require('../okc/intellect');
@@ -9,8 +9,15 @@ var Profile = require('../models/profile');
 var db = require('../helpers/connect');
 
 function messageMany() {
-	var username = process.env.TEST_USERNAME;
-	var password = process.env.TEST_PASSWORD;
+	var args = process.argv.slice(2);
+
+	if (args.length < 2) {
+		console.log('Usage: node scripts/send.js username password');
+		return;
+	}
+
+	var username = args[0];
+	var password = args[1];
 
 	var matchUrl = process.env.OKC_MATCH;
 
@@ -58,7 +65,7 @@ function messageMany() {
 		// });
 
 		stream.on('data', function(data) {
-			console.log('matched', data);
+			// console.log('matched', data);
 		});
 
 		throttler.on('data', function(data) {

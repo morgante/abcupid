@@ -7,8 +7,15 @@ var Message = require('../models/message');
 var db = require('../helpers/connect');
 
 function backup() {
-   var username = process.env.TEST_USERNAME;
-   var password = process.env.TEST_PASSWORD;
+   var args = process.argv.slice(2);
+
+   if (args.length < 2) {
+      console.log('Usage: node scripts/inbox.js username password');
+      return;
+   }
+
+   var username = args[0];
+   var password = args[1];
 
    var client = api.createClient();
 
